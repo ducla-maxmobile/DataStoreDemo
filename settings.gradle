@@ -1,0 +1,2 @@
+rootProject.name = "datastore-demo"
+include ':app'
