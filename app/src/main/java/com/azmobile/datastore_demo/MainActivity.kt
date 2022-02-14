@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel =
-            ViewModelProvider(this, MyViewModelFactory(UserPreferencesRepository(dataStore)))
+            ViewModelProvider(this, MyViewModelFactory(UserPreferencesRepository(userPreferencesStore)))
                 .get(MyViewModel::class.java)
 
         viewModel.initialSetupEvent.observe(this) {
@@ -39,15 +39,15 @@ class MainActivity : AppCompatActivity() {
         binding.edtName.setText(user.name)
         binding.edtAge.setText(user.age.toString())
 
-        binding.rbMale.isChecked = user.gender == Gender.MALE
-        binding.rbFemale.isChecked = user.gender != Gender.MALE
+        binding.rbMale.isChecked = user.gender == UserPreferences.Gender.MALE
+        binding.rbFemale.isChecked = user.gender != UserPreferences.Gender.MALE
         binding.tvBirthday.text = getString(R.string.birthday) + ":${countBirthday(user.age)}"
     }
 
     private fun setupOnCheckedChangeListeners() {
         binding.apply {
 
-            rg.setOnCheckedChangeListener { radioGroup, i ->
+            rg.setOnCheckedChangeListener { _, i ->
                 when (i) {
                     R.id.rbMale -> {
                         viewModel.updateGender(true)
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            binding.edtName.setOnEditorActionListener { textView, actionId, keyEvent ->
+            binding.edtName.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     viewModel.updateName(edtName.text.toString())
                 }

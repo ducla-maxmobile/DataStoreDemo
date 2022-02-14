@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_package = "com.azmobile.datastore_demo";
+option java_multiple_files = true;
+
+message UserPreferences {
+  string name = 1;
+  int32 age = 2;
+
+  enum Gender {
+    UNSPECIFIED = 0;
+    FEMALE = 1;
+    MALE = 2;
+  }
+
+  Gender gender = 3;
+}
